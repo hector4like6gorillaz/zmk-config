@@ -265,20 +265,20 @@
             >;
         };
 
-adjust_layer {
-    display-name = "Adjust";
+        adjust_layer {
+            display-name = "Adjust";
 // -----------------------------------------------------------------------------------------
-// | BTCLR | BT1| BT2 | BT3 | BT4 | NONE |   |DVORAK| NONE| NONE| NONE| NONE| QWRT |
+// | BTCLR | BT1| BT2 | BT3 | BT4 | NONE |   |TG DVR| NONE| NONE| NONE| NONE| QWRT|
 // | NONE  | NONE| NONE| NONE| NONE| NONE|   | NONE| NONE| NONE| NONE| NONE| NONE |
 // | NONE  | NONE| NONE| NONE| NONE| NONE|   | NONE| NONE| NONE| NONE| NONE| NONE |
 //                     | GUI | TRNS| TRNS|   | TRNS| TRNS| TRNS|
-    bindings = <
-&bt BT_CLR &bt BT_SEL 0 &bt BT_SEL 1 &bt BT_SEL 2 &bt BT_SEL 3 &none   &tog 6 &none &none &none &none &to 0
-&none &none &none &none &none &none   &none &none &none &none &none &none
-&none &none &none &none &none &none   &none &none &none &none &none &none
-             &kp LGUI &trans &trans   &trans &trans &trans
-    >;
-};
+            bindings = <
+   &bt BT_CLR &bt BT_SEL 0 &bt BT_SEL 1 &bt BT_SEL 2 &bt BT_SEL 3 &none   &tog 6 &none &none &none &none &to 0
+   &none       &none      &none        &none        &none        &none          &none  &none &none &none &none &none
+   &none       &none      &none        &none        &none        &none          &none  &none &none &none &none &none
+                          &kp LGUI     &trans       &trans                      &trans &trans &trans
+            >;
+        };
 
         mouse_layer {
             display-name = "Mouse";
@@ -315,20 +315,19 @@ adjust_layer {
             >;
         };
 
-vscode_layer {
-    display-name = "VS Code";
+        vscode_layer {
+            display-name = "VS Code";
 // -----------------------------------------------------------------------------------------
 // |      |FOC_L| SPLIT| FOC_R|     |     |   |     | DUP_U| M_UP |     |     |      |
 // |      |PRV_T|      | NXT_T|     |     |   |CMNT | DUP_D| M_DN | SEL_M|     |      |
 // |      |     |      |      |     |     |   |     |      |      |      |     |      |
 //                    |      |     |     |   |     |      |      |
-    bindings = <
-&trans &kp LG(N1)        &kp LG(BSLH)      &kp LG(N2)       &trans &trans   &trans &kp LS(LA(UP))   &kp LA(UP)   &trans &trans &trans
-
-&trans &kp LG(LBKT)      &trans            &kp LG(RBKT)     &trans &trans   &kp LG(FSLH) &kp LS(LA(DOWN)) &kp LA(DOWN) &kp LG(D) &trans &trans
-
-&trans &trans            &trans            &trans           &trans &trans   &trans &trans           &trans       &trans &trans &trans
-
-         &trans           &trans            &trans           &trans &trans &trans
-    >;
+            bindings = <
+   &trans &kp LG(N1)    &kp LG(BSLH)   &kp LG(N2)       &trans &trans   &trans     &kp LS(LA(UP))   &kp LA(UP)   &trans   &trans &trans
+   &trans &kp LG(LS(LBKT)) &trans      &kp LG(LS(RBKT)) &trans &trans   &kp LG(FSLH) &kp LS(LA(DOWN)) &kp LA(DOWN) &kp LG(D) &trans &trans
+   &trans &trans        &trans         &trans           &trans &trans   &trans     &trans           &trans       &trans   &trans &trans
+                        &trans         &trans           &trans          &trans     &trans           &trans
+            >;
+        };
+    };
 };
