@@ -27,21 +27,42 @@
         };
     };
 
-    combos {
+       combos {
         compatible = "zmk,combos";
         
-        // FORMATEAR (Shift + Alt + F)
+        // COMBO: ESC + E = Format Code (Shift + Alt + F)
         combo_vscode_format {
             timeout-ms = <50>;
-            key-positions = <0 3>;
+            key-positions = <0 3>; 
             bindings = <&kp LS(LA(F))>;
+        };
+
+        // COMBO: ESC + P = Command Palette (Shift + CMD/GUI + P)
+        combo_vscode_palette {
+            timeout-ms = <50>;
+            key-positions = <0 10>; 
+            bindings = <&kp LS(LG(P))>;
+        };
+
+        // COMBO: ESC + R = Screenshot Recorte (Shift + CMD/GUI + 4)
+        combo_mac_screenshot_4 {
+            timeout-ms = <50>;
+            key-positions = <0 4>; 
+            bindings = <&kp LS(LG(N4))>;
+        };
+
+        // COMBO: ESC + T = Screenshot Herramienta/Video (Shift + CMD/GUI + 5)
+        combo_mac_screenshot_5 {
+            timeout-ms = <50>;
+            key-positions = <0 5>; 
+            bindings = <&kp LS(LG(N5))>;
         };
     };
 
     keymap {
         compatible = "zmk,keymap";
 
-        default_layer {
+        default_layer {r
             display-name = "Base";
 // -----------------------------------------------------------------------------------------
 // |  ESC |  Q  |  W  |  E  |  R  |  T  |   |  Y  |  U   |  I  |  O  |  P  | BSPC |
