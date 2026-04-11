@@ -1,5 +1,6 @@
 /*
- * Copyright (c) 2020 The ZMK Contributors
+ * ZMK Keymap - Custom (QWERTY + DVORAK + VSCode + Mouse)
+ * Limpio, funcional y documentado
  *
  * SPDX-License-Identifier: MIT
  */
@@ -11,149 +12,11 @@
 
 / {
     behaviors {
-        // Tap Dance: 1 toque = Shift Izq, 2 toques = Bloq Mayus
-        td_shft_caps: tap_dance_shift_caps {
-            compatible = "zmk,behavior-tap-dance";
-            #binding-cells = <0>;
-            tapping-term-ms = <200>;
-            bindings = <&kp LSHFT>, <&kp CAPSLOCK>;
-        };
-        
-        // Configuración de movimiento del Mouse (Aceleración)
-        mmv {
-            acceleration-exponent = <1>;
-            time-to-max-speed-ms = <300>;
-            delay-ms = <0>;
-        };
 
-        // Configuración de Scroll
-        msc {
-            acceleration-exponent = <0>;
-            time-to-max-speed-ms = <0>;
-            delay-ms = <0>;
-        };
-    };
-
-    combos {
-        compatible = "zmk,combos";
-        
-        // COMBO: ESC + E = Format Code (Shift + Alt + F)
-        // Se presionan las dos teclas centrales de la fila superior (Índices).
-        combo_vscode_format {
-            timeout-ms = <50>;
-            key-positions = <0 3>; // Posiciones de ESC y E en Corne (0 y 3)
-            bindings = <&kp LS(LA(F))>;
-        };
-    };
-
-    keymap {
-        compatible = "zmk,keymap";
-
-        default_layer {
-            display-name = "Base";
-// -----------------------------------------------------------------------------------------
-// |  ESC |  Q  |  W  |  E  |  R  |  T  |   |  Y  |  U   |  I  |  O  |  P  | BSPC |
-// | SHFT*|  A  |  S  |  D  |  F  |  G  |   |  H  |  J   |  K  |  L  |  ;  |  '   |
-// | CTRL |  Z  |  X  |  C  |  V  |  B  |   |  N  |  M   |  ,  |  .  |  /  | SHFT |
-//                    | GUI | LWR | SPC |   | ENT | RSE  | ALT |
-            bindings = <
-   &kp ESC       &kp Q &kp W &kp E &kp R &kp T   &kp Y &kp U  &kp I     &kp O   &kp P    &kp BSPC
-   &td_shft_caps &kp A &kp S &kp D &kp F &kp G   &kp H &kp J  &kp K     &kp L   &kp SEMI &kp SQT
-   &kp LCTRL     &kp Z &kp X &kp C &kp V &kp B   &kp N &kp M  &kp COMMA &kp DOT &kp FSLH &kp RSHFT
-                 &kp LGUI &lt 1 TAB &kp SPACE    &kp RET &lt 2 DEL &kp RALT
-            >;
-        };
-
-        lower_layer {
-            display-name = "Lower";
-// -----------------------------------------------------------------------------------------
-// |  `   |  1  |  2  |  3  |  4  |  5  |   |  6  |  7  |  8  |  9  |  0  |  -   |
-// | TRNS | NUBS| F2  | F5  | F12 |  ]  |   | NONE|  UP  |  [  | HOME| NONE|  \   |
-// | TRNS | ALT | SCRL|MOUSE| LCLK| RCLK|   | LFT | DWN  | RGT | END | NONE| TRNS |
-//                    | GUI | TRNS| TRNS|   | TRNS| ADJ  | TRNS|
-            bindings = <
-   &kp GRAVE  &kp N1      &kp N2 &kp N3 &kp N4 &kp N5      &kp N6   &kp N7   &kp N8    &kp N9    &kp N0 &kp MINUS
-   &trans     &kp NON_US_BSLH &kp F2 &kp F5 &kp F12 &kp RBKT    &none    &kp UP   &kp LBKT  &kp HOME  &none  &kp BSLH
-   &trans     &kp LALT    &mo 5  &mo 4  &mkp LCLK &mkp RCLK  &kp LEFT &kp DOWN &kp RIGHT &kp END   &none  &trans
-                          &kp LGUI &trans &trans           &trans   &lt 3 DEL &trans
-            >;
-        };
-
-        raise_layer {
-            display-name = "Raise";
-// -----------------------------------------------------------------------------------------
-// | ESC  | NONE| STOP| PREV| PLAY| NEXT|   | NONE|  7  |  8  |  9  | NONE| PSCRN|
-// | TRNS | NONE| NONE| MUTE| VDN | VUP |   | NONE|  4  |  5  |  6  | NONE| NONE |
-// | TRNS | ALT | NONE| NONE| NONE| NONE|   |  0  |  1  |  2  |  3  | NONE| NONE |
-//                    | GUI | ADJ | TRNS|   | TRNS| TRNS| TRNS|
-            bindings = <
-   &kp ESC &none    &kp C_STOP &kp C_PREV &kp C_PP     &kp C_NEXT      &none  &kp N7 &kp N8 &kp N9 &none &kp PSCRN
-   &trans  &none    &none      &kp C_MUTE &kp C_VOL_DN &kp C_VOL_UP    &none  &kp N4 &kp N5 &kp N6 &none &none
-   &trans  &kp LALT &none      &none      &none        &none           &kp N0 &kp N1 &kp N2 &kp N3 &none &none
-                               &kp LGUI   &lt 3 TAB    &trans          &trans &trans &trans
-            >;
-        };
-
-        adjust_layer {
-            display-name = "Adjust";
-// -----------------------------------------------------------------------------------------
-// | BTCLR | BT1| BT2 | BT3 | BT4 | NONE |   | NONE| NONE| NONE| NONE| NONE| NONE |
-// | NONE | NONE | NONE| NONE| NONE| NONE|   | NONE| NONE| NONE| NONE| NONE| NONE |
-// | NONE | NONE | NONE| NONE| NONE| NONE|   | NONE| NONE| NONE| NONE| NONE| NONE |
-//                     | GUI | TRNS| TRNS|   | TRNS| TRNS| TRNS|
-            bindings = <
-   &bt BT_CLR &bt BT_SEL 0 &bt BT_SEL 1 &bt BT_SEL 2 &bt BT_SEL 3 &none   &none &none &none &none &none &none
-   &none       &none      &none        &none        &none        &none          &none       &none &none &none &none &none
-   &none       &none      &none        &none        &none        &none          &none       &none &none &none &none &none
-                          &kp LGUI     &trans       &trans                      &trans      &trans &trans
-            >;
-        };
-
-        mouse_layer {
-            display-name = "Mouse";
-// -----------------------------------------------------------------------------------------
-// |      |     |     |     |     |     |   |     |     |     |     |     |      |
-// |      |     |     |     |     |     |   |     | M_UP|     |     |     |      |
-// |      |     |     |     |     |     |   |M_LFT|M_DWN|M_RGT|     |     |      |
-//                    |     |     |     |   |     |     |     |
-            bindings = <
-   &trans &trans &trans &trans &trans &trans    &trans &trans &trans &trans &trans &trans
-   &trans &trans &trans &trans &trans &trans    &trans &mmv MOVE_UP &trans &trans &trans &trans
-   &trans &trans &trans &trans &trans &trans    &mmv MOVE_LEFT &mmv MOVE_DOWN &mmv MOVE_RIGHT &trans &trans &trans
-                        &trans &trans &trans    &trans &trans &trans
-            >;
-        };
-
-        scroll_layer {
-            display-name = "Scroll";
-// -----------------------------------------------------------------------------------------
-// |      |     |     |     |     |     |   |     |     |     |     |     |      |
-// |      |     |     |     |     |     |   |     | S_UP|     |     |     |      |
-// |      |     |     |     |     |     |   |S_LFT|S_DWN|S_RGT|     |     |      |
-//                    |     |     |     |   |     |     |     |
-            bindings = <
-   &trans &trans &trans &trans &trans &trans    &trans &trans        &trans &trans &trans &trans
-   &trans &trans &trans &trans &trans &trans    &trans &msc SCRL_UP  &trans &trans &trans &trans
-   &trans &trans &trans &trans &trans &trans    &msc SCRL_LEFT &msc SCRL_DOWN &msc SCRL_RIGHT &trans &trans &trans
-                        &trans &trans &trans    &trans &trans &trans
-            >;
-        };
-    };
-};
-/*
- * Copyright (c) 2020 The ZMK Contributors
- *
- * SPDX-License-Identifier: MIT
- */
-
-#include <behaviors.dtsi>
-#include <dt-bindings/zmk/keys.h>
-#include <dt-bindings/zmk/bt.h>
-#include <dt-bindings/zmk/pointing.h>
-
-/ {
-    behaviors {
-        // Tap Dance: 1 toque = Shift Izq, 2 toques = Bloq Mayus
+        // =========================
+        // TAP DANCE
+        // =========================
+        // 1 tap = Shift | 2 taps = Caps Lock
         td_shft_caps: tap_dance_shift_caps {
             compatible = "zmk,behavior-tap-dance";
             #binding-cells = <0>;
@@ -161,7 +24,10 @@
             bindings = <&kp LSHFT>, <&kp CAPSLOCK>;
         };
 
-        // Hold-Tap Personalizado: Mantener = Guion Bajo, Tocar = Guion Medio
+        // =========================
+        // HOLD-TAP ( _ / - )
+        // =========================
+        // Tap = - | Hold = _
         ht_under: hold_tap_under {
             compatible = "zmk,behavior-hold-tap";
             #binding-cells = <2>;
@@ -169,15 +35,16 @@
             tapping-term-ms = <200>;
             bindings = <&kp>, <&kp>;
         };
-        
-        // Configuración de movimiento del Mouse (Aceleración) original
+
+        // =========================
+        // MOUSE CONFIG
+        // =========================
         mmv {
             acceleration-exponent = <1>;
             time-to-max-speed-ms = <300>;
             delay-ms = <0>;
         };
 
-        // Configuración de Scroll original
         msc {
             acceleration-exponent = <0>;
             time-to-max-speed-ms = <0>;
@@ -185,148 +52,167 @@
         };
     };
 
+    // =========================
+    // COMBOS
+    // =========================
     combos {
         compatible = "zmk,combos";
-        
-        // COMBO: ESC + E = Format Code (Shift + Alt + F)
+
+        // Formatear código en VS Code
         combo_vscode_format {
             timeout-ms = <50>;
-            key-positions = <0 3>; 
+            key-positions = <0 3>;
             bindings = <&kp LS(LA(F))>;
-        };
-
-        // COMBO: ESC + P = Command Palette (Shift + CMD/GUI + P)
-        combo_vscode_palette {
-            timeout-ms = <50>;
-            key-positions = <0 10>; 
-            bindings = <&kp LS(LG(P))>;
-        };
-
-        // COMBO: ESC + R = Screenshot Recorte (Shift + CMD/GUI + 4)
-        combo_mac_screenshot_4 {
-            timeout-ms = <50>;
-            key-positions = <0 4>; 
-            bindings = <&kp LS(LG(N4))>;
-        };
-
-        // COMBO: ESC + T = Screenshot Herramienta/Video (Shift + CMD/GUI + 5)
-        combo_mac_screenshot_5 {
-            timeout-ms = <50>;
-            key-positions = <0 5>; 
-            bindings = <&kp LS(LG(N5))>;
         };
     };
 
+    // =========================
+    // KEYMAP
+    // =========================
     keymap {
         compatible = "zmk,keymap";
 
+        // ======================================================
+        // LAYER 0: BASE LAYER (QWERTY)
+        // ======================================================
+        // -----------------------------------------------------------------------------------------
+        // |  ESC |  Q  |  W  |  E  |  R  |  T  |   |  Y  |  U   |  I  |  O  |  P  | BSPC |
+        // | SHFT*|  A  |  S  |  D  |  F  |  G  |   |  H  |  J   |  K  |  L  |  ;  |  '   |
+        // | CTRL |  Z  |  X  |  C  |  V  |  B  |   |  N  |  M   |  ,  |  .  | -/_ | SCROL|
+        //                    | GUI | TAB | SPC |   | ENT | DEL  | ALT |
         default_layer {
             display-name = "Base";
-// -----------------------------------------------------------------------------------------
-// |  ESC |  Q  |  W  |  E  |  R  |  T  |   |  Y  |  U   |  I  |  O  |  P  | BSPC |
-// | SHFT*|  A  |  S  |  D  |  F  |  G  |   |  H  |  J   |  K  |  L  |  ;  |  '   |
-// | CTRL |  Z  |  X  |  C  |  V  |  B  |   |  N  |  M   |  ,  |  .  | _/- | VSCD |
-//                    | GUI | LWR | SPC |   | ENT | RSE  | ALT |
             bindings = <
-   &kp ESC       &kp Q &kp W &kp E &kp R &kp T   &kp Y &kp U  &kp I     &kp O   &kp P    &kp BSPC
-   &td_shft_caps &kp A &kp S &kp D &kp F &kp G   &kp H &kp J  &kp K     &kp L   &kp SEMI &kp SQT
-   &kp LCTRL     &kp Z &kp X &kp C &kp V &kp B   &kp N &kp M  &kp COMMA &kp DOT &ht_under LS(FSLH) FSLH  &lt 7 LG(B)
-                 &kp LGUI &lt 1 TAB &kp SPACE    &kp RET &lt 2 DEL &kp RALT
+   &kp ESC       &kp Q    &kp W      &kp E     &kp R     &kp T       &kp Y   &kp U     &kp I     &kp O   &kp P                    &kp BSPC
+   &td_shft_caps &kp A    &kp S      &kp D     &kp F     &kp G       &kp H   &kp J     &kp K     &kp L   &kp SEMI                 &kp SQT
+   &kp LCTRL     &kp Z    &kp X      &kp C     &kp V     &kp B       &kp N   &kp M     &kp COMMA &kp DOT &ht_under UNDERSCORE MINUS &lt 7 LG(B)
+                          &kp LGUI   &lt 1 TAB &kp SPACE             &kp RET &lt 2 DEL &kp RALT
             >;
         };
 
+        // ======================================================
+        // LAYER 1: LOWER (NUMBERS / SYMBOLS)
+        // ======================================================
+        // -----------------------------------------------------------------------------------------
+        // |   `  |  1  |  2  |  3  |  4  |  5  |   |  6  |  7   |  8  |  9  |  0  |  -   |
+        // | TRNS | NU\ | F2  | F5  | F12 |  ]  |   | NONE|  UP  |  [  | HOME| NONE|  \   |
+        // | TRNS | ALT | VSC | DVK | LCLK| RCLK|   | LFT | DWN  | RGT | END | NONE| TRNS |
+        //                    | GUI | TRNS| TRNS|   | TRNS| ADJ  | TRNS|
         lower_layer {
             display-name = "Lower";
-// -----------------------------------------------------------------------------------------
-// |  `   |  1  |  2  |  3  |  4  |  5  |   |  6  |  7  |  8  |  9  |  0  |  -   |
-// | TRNS | NUBS| F2  | F5  | F12 |  ]  |   | NONE|  UP  |  [  | HOME| NONE|  \   |
-// | TRNS | ALT | SCRL|MOUSE| LCLK| RCLK|   | LFT | DWN  | RGT | END | NONE| TRNS |
-//                    | GUI | TRNS| TRNS|   | TRNS| ADJ  | TRNS|
             bindings = <
-   &kp GRAVE  &kp N1      &kp N2 &kp N3 &kp N4 &kp N5      &kp N6   &kp N7   &kp N8    &kp N9    &kp N0 &kp MINUS
-   &trans     &kp NON_US_BSLH &kp F2 &kp F5 &kp F12 &kp RBKT    &none    &kp UP   &kp LBKT  &kp HOME  &none  &kp BSLH
-   &trans     &kp LALT    &mo 5  &mo 4  &mkp LCLK &mkp RCLK  &kp LEFT &kp DOWN &kp RIGHT &kp END   &none  &trans
-                          &kp LGUI &trans &trans           &trans   &lt 3 DEL &trans
+   &kp GRAVE &kp N1          &kp N2   &kp N3 &kp N4    &kp N5        &kp N6   &kp N7   &kp N8   &kp N9   &kp N0 &kp MINUS
+   &trans    &kp NON_US_BSLH &kp F2   &kp F5 &kp F12   &kp RBKT      &none    &kp UP   &kp LBKT &kp HOME &none  &kp BSLH
+   &trans    &kp LALT        &mo 5    &mo 4  &mkp LCLK &mkp RCLK     &kp LEFT &kp DOWN &kp RIGHT&kp END  &none  &trans
+                             &kp LGUI &trans &trans                  &trans   &lt 3 DEL&trans
             >;
         };
 
+        // ======================================================
+        // LAYER 2: RAISE (MEDIA / NUMPAD)
+        // ======================================================
+        // -----------------------------------------------------------------------------------------
+        // |  ESC | NONE| STOP| PREV| P/P | NEXT|   | NONE|  7   |  8  |  9  | NONE| PRSC |
+        // | TRNS | NONE| NONE| MUTE| VDN | VUP |   | NONE|  4   |  5  |  6  | NONE| NONE |
+        // | TRNS | ALT | NONE| NONE| NONE| NONE|   |  0  |  1   |  2  |  3  | NONE| NONE |
+        //                    | GUI | ADJ | TRNS|   | TRNS| TRNS | TRNS|
         raise_layer {
             display-name = "Raise";
-// -----------------------------------------------------------------------------------------
-// | ESC  | NONE| STOP| PREV| PLAY| NEXT|   | NONE|  7  |  8  |  9  | NONE| PSCRN|
-// | TRNS | NONE| NONE| MUTE| VDN | VUP |   | NONE|  4  |  5  |  6  | NONE| NONE |
-// | TRNS | ALT | NONE| NONE| NONE| NONE|   |  0  |  1  |  2  |  3  | NONE| NONE |
-//                    | GUI | ADJ | TRNS|   | TRNS| TRNS| TRNS|
             bindings = <
-   &kp ESC &none    &kp C_STOP &kp C_PREV &kp C_PP     &kp C_NEXT      &none  &kp N7 &kp N8 &kp N9 &none &kp PSCRN
-   &trans  &none    &none      &kp C_MUTE &kp C_VOL_DN &kp C_VOL_UP    &none  &kp N4 &kp N5 &kp N6 &none &none
-   &trans  &kp LALT &none      &none      &none        &none           &kp N0 &kp N1 &kp N2 &kp N3 &none &none
-                               &kp LGUI   &lt 3 TAB    &trans          &trans &trans &trans
+   &kp ESC &none    &kp C_STOP &kp C_PREV &kp C_PP     &kp C_NEXT    &none  &kp N7 &kp N8 &kp N9 &none &kp PSCRN
+   &trans  &none    &none      &kp C_MUTE &kp C_VOL_DN &kp C_VOL_UP  &none  &kp N4 &kp N5 &kp N6 &none &none
+   &trans  &kp LALT &none      &none      &none        &none         &kp N0 &kp N1 &kp N2 &kp N3 &none &none
+                    &kp LGUI   &lt 3 TAB  &trans                     &trans &trans &trans
             >;
         };
 
+        // ======================================================
+        // LAYER 3: ADJUST (CONFIG / BLUETOOTH)
+        // ======================================================
+        // -----------------------------------------------------------------------------------------
+        // | BTCLR| BT0 | BT1 | BT2 | BT3 | NONE|   | MOUS| NONE| NONE| NONE| NONE| QWTY |
+        // | NONE | NONE| NONE| NONE| NONE| NONE|   | NONE| NONE| NONE| NONE| NONE| NONE |
+        // | NONE | NONE| NONE| NONE| NONE| NONE|   | NONE| NONE| NONE| NONE| NONE| NONE |
+        //                    | GUI | TRNS| TRNS|   | TRNS| TRNS| TRNS|
         adjust_layer {
             display-name = "Adjust";
-// -----------------------------------------------------------------------------------------
-// | BTCLR | BT1| BT2 | BT3 | BT4 | NONE |   |TG DVR| NONE| NONE| NONE| NONE| QWRT|
-// | NONE  | NONE| NONE| NONE| NONE| NONE|   | NONE| NONE| NONE| NONE| NONE| NONE |
-// | NONE  | NONE| NONE| NONE| NONE| NONE|   | NONE| NONE| NONE| NONE| NONE| NONE |
-//                     | GUI | TRNS| TRNS|   | TRNS| TRNS| TRNS|
             bindings = <
-   &bt BT_CLR &bt BT_SEL 0 &bt BT_SEL 1 &bt BT_SEL 2 &bt BT_SEL 3 &none   &tog 6 &none &none &none &none &to 0
-   &none       &none      &none        &none        &none        &none          &none  &none &none &none &none &none
-   &none       &none      &none        &none        &none        &none          &none  &none &none &none &none &none
-                          &kp LGUI     &trans       &trans                      &trans &trans &trans
+   &bt BT_CLR &bt BT_SEL 0 &bt BT_SEL 1 &bt BT_SEL 2 &bt BT_SEL 3 &none     &tog 6 &none &none &none &none &to 0
+   &none      &none        &none        &none        &none        &none     &none  &none &none &none &none &none
+   &none      &none        &none        &none        &none        &none     &none  &none &none &none &none &none
+                           &kp LGUI     &trans       &trans                 &trans &trans&trans
             >;
         };
 
+        // ======================================================
+        // LAYER 4: DVORAK
+        // ======================================================
+        // -----------------------------------------------------------------------------------------
+        // |  ESC |  '  |  ,  |  .  |  P  |  Y  |   |  F  |  G   |  C  |  R  |  L  | BSPC |
+        // | SHFT*|  A  |  O  |  E  |  U  |  I  |   |  D  |  H   |  T  |  N  |  S  |  -   |
+        // | CTRL |  ;  |  Q  |  J  |  K  |  X  |   |  B  |  M   |  W  |  V  |  Z  | SHFT |
+        //                    | GUI | LWR | SPC |   | ENT | RSE  | ALT |
+        dvorak_layer {
+            display-name = "Dvorak";
+            bindings = <
+   &kp ESC       &kp SQT  &kp COMMA &kp DOT   &kp P     &kp Y        &kp F   &kp G     &kp C    &kp R &kp L &kp BSPC
+   &td_shft_caps &kp A    &kp O     &kp E     &kp U     &kp I        &kp D   &kp H     &kp T    &kp N &kp S &kp MINUS
+   &kp LCTRL     &kp SEMI &kp Q     &kp J     &kp K     &kp X        &kp B   &kp M     &kp W    &kp V &kp Z &kp RSHFT
+                          &kp LGUI  &lt 1 TAB &kp SPACE              &kp RET &lt 2 DEL &kp RALT
+            >;
+        };
+
+        // ======================================================
+        // LAYER 5: VS CODE (FIXED PARA ISO)
+        // ======================================================
+        // -----------------------------------------------------------------------------------------
+        // | TRNS | Win1| Win\| Win2| TRNS| TRNS|   | TRNS|S-A-UP| A-UP| TRNS| TRNS| TRNS |
+        // | TRNS | Win[| TRNS| Win]| TRNS| TRNS|   | Win/|S-A-DN| A-DN| WinD| TRNS| TRNS |
+        // | TRNS | TRNS| TRNS| TRNS| TRNS| TRNS|   | TRNS| TRNS | TRNS| TRNS| TRNS| TRNS |
+        //                    | TRNS| TRNS| TRNS|   | TRNS| TRNS | TRNS|
+        vscode_layer {
+            display-name = "VS Code";
+            bindings = <
+   &trans &kp LG(N1)   &kp LG(BSLH) &kp LG(N2)   &trans &trans      &trans       &kp LS(LA(UP))   &kp LA(UP)   &trans    &trans &trans
+   &trans &kp LG(LBKT) &trans       &kp LG(RBKT) &trans &trans      &kp LG(FSLH) &kp LS(LA(DOWN)) &kp LA(DOWN) &kp LG(D) &trans &trans
+   &trans &trans       &trans       &trans       &trans &trans      &trans       &trans           &trans       &trans    &trans &trans
+                       &trans       &trans       &trans             &trans       &trans           &trans
+            >;
+        };
+
+        // ======================================================
+        // LAYER 6: MOUSE
+        // ======================================================
+        // -----------------------------------------------------------------------------------------
+        // | TRNS | TRNS| TRNS| TRNS| TRNS| TRNS|   | TRNS| TRNS | TRNS| TRNS| TRNS| TRNS |
+        // | TRNS | TRNS| TRNS| TRNS| TRNS| TRNS|   | TRNS| M-UP | TRNS| TRNS| TRNS| TRNS |
+        // | TRNS | TRNS| TRNS| TRNS| TRNS| TRNS|   | M-LFT| M-DN| M-RGT|TRNS| TRNS| TRNS |
+        //                    | TRNS| TRNS| TRNS|   | TRNS| TRNS | TRNS|
         mouse_layer {
             display-name = "Mouse";
             bindings = <
-   &trans &trans &trans &trans &trans &trans    &trans &trans &trans &trans &trans &trans
-   &trans &trans &trans &trans &trans &trans    &trans &mmv MOVE_UP &trans &trans &trans &trans
-   &trans &trans &trans &trans &trans &trans    &mmv MOVE_LEFT &mmv MOVE_DOWN &mmv MOVE_RIGHT &trans &trans &trans
-                        &trans &trans &trans    &trans &trans &trans
+   &trans &trans &trans &trans &trans &trans      &trans         &trans         &trans          &trans &trans &trans
+   &trans &trans &trans &trans &trans &trans      &trans         &mmv MOVE_UP   &trans          &trans &trans &trans
+   &trans &trans &trans &trans &trans &trans      &mmv MOVE_LEFT &mmv MOVE_DOWN &mmv MOVE_RIGHT &trans &trans &trans
+                 &trans &trans &trans             &trans         &trans         &trans
             >;
         };
 
+        // ======================================================
+        // LAYER 7: SCROLL
+        // ======================================================
+        // -----------------------------------------------------------------------------------------
+        // | TRNS | TRNS| TRNS| TRNS| TRNS| TRNS|   | TRNS| TRNS | TRNS| TRNS| TRNS| TRNS |
+        // | TRNS | TRNS| TRNS| TRNS| TRNS| TRNS|   | TRNS| S-UP | TRNS| TRNS| TRNS| TRNS |
+        // | TRNS | TRNS| TRNS| TRNS| TRNS| TRNS|   | S-LFT| S-DN| S-RGT|TRNS| TRNS| TRNS |
+        //                    | TRNS| TRNS| TRNS|   | TRNS| TRNS | TRNS|
         scroll_layer {
             display-name = "Scroll";
             bindings = <
-   &trans &trans &trans &trans &trans &trans    &trans &trans        &trans &trans &trans &trans
-   &trans &trans &trans &trans &trans &trans    &trans &msc SCRL_UP  &trans &trans &trans &trans
-   &trans &trans &trans &trans &trans &trans    &msc SCRL_LEFT &msc SCRL_DOWN &msc SCRL_RIGHT &trans &trans &trans
-                        &trans &trans &trans    &trans &trans &trans
-            >;
-        };
-
-        dvorak_layer {
-            display-name = "Dvorak";
-// -----------------------------------------------------------------------------------------
-// |  ESC |  '  |  ,  |  .  |  P  |  Y  |   |  F  |  G   |  C  |  R  |  L  | BSPC |
-// | SHFT*|  A  |  O  |  E  |  U  |  I  |   |  D  |  H   |  T  |  N  |  S  |  -   |
-// | CTRL |  ;  |  Q  |  J  |  K  |  X  |   |  B  |  M   |  W  |  V  |  Z  | SHFT |
-//                    | GUI | LWR | SPC |   | ENT | RSE  | ALT |
-            bindings = <
-   &kp ESC       &kp SQT  &kp COMMA &kp DOT &kp P &kp Y   &kp F &kp G  &kp C &kp R &kp L &kp BSPC
-   &td_shft_caps &kp A    &kp O     &kp E   &kp U &kp I   &kp D &kp H  &kp T &kp N &kp S &kp MINUS
-   &kp LCTRL     &kp SEMI &kp Q     &kp J   &kp K &kp X   &kp B &kp M  &kp W &kp V &kp Z &kp RSHFT
-                 &kp LGUI &lt 1 TAB &kp SPACE             &kp RET &lt 2 DEL &kp RALT
-            >;
-        };
-
-        vscode_layer {
-            display-name = "VS Code";
-// -----------------------------------------------------------------------------------------
-// |      |FOC_L| SPLIT| FOC_R|     |     |   |     | DUP_U| M_UP |     |     |      |
-// |      |PRV_T|      | NXT_T|     |     |   |CMNT | DUP_D| M_DN | SEL_M|     |      |
-// |      |     |      |      |     |     |   |     |      |      |      |     |      |
-//                    |      |     |     |   |     |      |      |
-            bindings = <
-   &trans &kp LG(N1)    &kp LG(BSLH)   &kp LG(N2)       &trans &trans   &trans     &kp LS(LA(UP))   &kp LA(UP)   &trans   &trans &trans
-   &trans &kp LG(LS(LBKT)) &trans      &kp LG(LS(RBKT)) &trans &trans   &kp LG(FSLH) &kp LS(LA(DOWN)) &kp LA(DOWN) &kp LG(D) &trans &trans
-   &trans &trans        &trans         &trans           &trans &trans   &trans     &trans           &trans       &trans   &trans &trans
-                        &trans         &trans           &trans          &trans     &trans           &trans
+   &trans &trans &trans &trans &trans &trans      &trans         &trans         &trans          &trans &trans &trans
+   &trans &trans &trans &trans &trans &trans      &trans         &msc SCRL_UP   &trans          &trans &trans &trans
+   &trans &trans &trans &trans &trans &trans      &msc SCRL_LEFT &msc SCRL_DOWN &msc SCRL_RIGHT &trans &trans &trans
+                 &trans &trans &trans             &trans         &trans         &trans
             >;
         };
     };
